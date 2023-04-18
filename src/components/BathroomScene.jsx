@@ -14,11 +14,11 @@ const BathroomScene = () => {
 	// Знаходимо стіну ванної кімнати та її розміри(на жаль я не зміг знайти параметри, тому написав їх
 	// як вони могли бути)
 	const wall = gltf.scene.getObjectByName('Shower_Grout_Wall')
-	const wallWidth = wall.geometry.parameters.width
-	const wallHeight = wall.geometry.parameters.height
+	// const wallWidth = wall.geometry.parameters.width
+	// const wallHeight = wall.geometry.parameters.height
 	//Для перевірки можна захардкодити розміри
-	// const wallWidth = 200
-	// const wallHeight = 100
+	const wallWidth = 200
+	const wallHeight = 100
 	console.log(wall)
 
 	//Завантаження текстури
@@ -39,7 +39,7 @@ const BathroomScene = () => {
 			<ambientLight intensity={0.1} />
 			<directionalLight position={[1, 1, 1]} intensity={0.8} />
 			<OrbitControls />
-			<group ref={modelRef} position={[0, 4, -2]}>
+			<group ref={modelRef} position={[0, 0, -2]}>
 				<primitive object={gltf.scene} />
 				{/* <primitive object={wall} /> */}
 			</group>
