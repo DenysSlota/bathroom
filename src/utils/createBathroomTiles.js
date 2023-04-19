@@ -30,8 +30,8 @@ export function createBathroomTiles(texture, tileWidth, tileHeight, groutColor, 
 	tileMesh.add(groutMesh)
 
 	// Встановлюємо позицію міжплиткового проміжку відносно плитки
-	groutMesh.position.set(groutThickness / 2, groutThickness / 2, -1)
-
+	// groutMesh.position.set(groutThickness / 2, groutThickness / 2, -1)
+	groutMesh.position.set(0, 0, -0.01)
 	// Повертаємо меш плитки з міжплитковими проміжками
 	return tileMesh
 }

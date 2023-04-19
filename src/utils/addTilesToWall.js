@@ -21,8 +21,8 @@ export function addTilesToWall(
 	const numTilesVertical = Math.floor(wallHeight / tileGroutHeight)
 
 	// Зміщення плиток по горизонталі та вертикалі
-	const offsetX = -wallWidth / 2
-	const offsetY = -wallHeight / 2
+	const offsetX = -wallWidth / 2 + tileGroutWidth / 2
+	const offsetY = -wallHeight / 2 + tileGroutHeight / 2
 
 	// Додаємо плитки до стіни
 	for (let i = 0; i < numTilesHorizontal; i++) {
@@ -37,11 +37,7 @@ export function addTilesToWall(
 			)
 
 			// Встановлюємо позицію плитки відносно стіни
-			tileMesh.position.set(
-				offsetX + i * tileGroutWidth + tileGroutWidth / 2,
-				offsetY + j * tileGroutHeight + tileGroutHeight / 2,
-				0
-			)
+			tileMesh.position.set(offsetX + i * tileGroutWidth, offsetY + j * tileGroutHeight, 0)
 
 			// Додаємо меш плитки до групи
 			tilesGroup.add(tileMesh)
@@ -60,8 +56,8 @@ export function addTilesToWall(
 	if (remainingWidth > 0) {
 		for (let j = 0; j < numTilesVertical; j++) {
 			// Зміщення кусочка плиток по горизонталі та вертикалі
-			const pieceOffsetX = (numTilesHorizontal * tileGroutWidth) / 2 + tilePieceWidth / 2
-			const pieceOffsetY = -((numTilesVertical * tileGroutHeight) / 2 + tileGroutHeight / 2)
+			const pieceOffsetX = wallWidth / 2 - remainingWidth / 2
+			const pieceOffsetY = -wallHeight / 2 + tileGroutHeight / 2
 
 			// Створюємо меш кусочка плитки
 			const tilePiece = createBathroomTiles(
@@ -83,8 +79,8 @@ export function addTilesToWall(
 	if (remainingHeight > 0) {
 		for (let i = 0; i < numTilesHorizontal; i++) {
 			// Зміщення кусочка плиток по горизонталі та вертикалі
-			const pieceOffsetX = -((numTilesHorizontal * tileGroutWidth) / 2 + tileGroutWidth / 2)
-			const pieceOffsetY = (numTilesVertical * tileGroutHeight) / 2 + tilePieceHeight / 2
+			const pieceOffsetX = -wallWidth / 2 + tileGroutWidth / 2
+			const pieceOffsetY = wallHeight / 2 - remainingHeight / 2
 
 			// Створюємо меш кусочка плитки
 			const tilePiece = createBathroomTiles(
@@ -100,6 +96,27 @@ export function addTilesToWall(
 			// Додаємо меш кусочка плитки до групи
 			tilesGroup.add(tilePiece)
 		}
+	}
+
+	// Якщо по ширині та висоті треба додати кусочек
+	if ((remainingWidth > 0) & (remainingHeight > 0)) {
+		// Зміщення кусочка плитки по горизонталі та вертикалі
+		const pieceOffsetX = wallWidth / 2 - remainingWidth / 2
+		const pieceOffsetY = wallHeight / 2 - remainingHeight / 2
+
+		// Створюємо меш кусочка плитки
+		const tilePiece = createBathroomTiles(
+			texture,
+			tilePieceWidth,
+			tilePieceHeight,
+			groutColor,
+			groutThickness
+		)
+		// Встановлюємо позицію плитки відносно стіни
+		tilePiece.position.set(pieceOffsetX, pieceOffsetY, 0)
+
+		// Додаємо меш кусочка плитки до групи
+		tilesGroup.add(tilePiece)
 	}
 	// Повертаємо групу мешів плиток
 	return tilesGroup

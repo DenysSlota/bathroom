@@ -1,4 +1,5 @@
 import BathroomScene from './components/BathroomScene'
+import BathroomSceneNew from './components/BathroomSceneNew'
 import './App.css'
 
 function App() {
