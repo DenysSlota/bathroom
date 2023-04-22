@@ -13,23 +13,25 @@ const BathroomScene = () => {
 	const gltf = useGLTF('/babylonBathroom.glb', true)
 	const wall = gltf.scene
 
-	// Знаходимо стіну ванної кімнати та її розміри(на жаль я не зміг знайти параметри, тому написав їх
-	// як вони могли бути)
+	// Знаходимо стіну ванної кімнати
 	const wallShower = gltf.scene.getObjectByName('Shower_Grout_Wall')
 	console.log(wallShower)
-	// const wallWidth = wall.geometry.parameters.width
-	// const wallHeight = wall.geometry.parameters.height
-	//Для перевірки можна захардкодити розміри
-	const wallWidth = 320
-	const wallHeight = 270
 	console.log(wall)
 
-	// Отримання bounding box стіни
-	const wallBoundingBox = new THREE.Box3().setFromObject(wallShower)
-
+	// Отримання boundingBox стіни
+	const boundingBox = new THREE.Box3().setFromObject(wallShower)
+	// Отримання координат мінімальної та максимальної точок
+	const minPoint = boundingBox.min
+	const maxPoint = boundingBox.max
+	// Отримання розмірів стіни
+	const wallWidth = maxPoint.x - minPoint.x
+	const wallHeight = maxPoint.y - minPoint.y
+	console.log(wallWidth)
+	console.log(wallHeight)
 	// Отримання центру стіни
-	const wallCenter = new THREE.Vector3()
-	wallBoundingBox.getCenter(wallCenter)
+	const wallCenterX = maxPoint.x - (maxPoint.x - minPoint.x) / 2
+	const wallCenterY = maxPoint.y - (maxPoint.y - minPoint.y) / 2
+	const wallCenterZ = maxPoint.z - (maxPoint.z - minPoint.z) / 2
 
 	//Завантаження текстури
 	const tileTexture = useLoader(TextureLoader, texture)
@@ -37,14 +39,18 @@ const BathroomScene = () => {
 	// Створення групи для меш-плиток
 	const tilesGroup = addTilesToWall(wallWidth, wallHeight, tileTexture, 8, 15, 0xffffff, 2)
 
+	// Встановлюємо позицію групи відносно стіни
+	tilesGroup.position.set(wallCenterX, wallCenterY, wallCenterZ)
+
+	// повертаємо групу мешів на 90 градусів по осі X
+	tilesGroup.setRotationFromEuler(new THREE.Euler(Math.PI / 2, 0, 0))
 	//Додаємо групу плиток до стіни
-	tilesGroup.position.set(wallCenter.x, wallCenter.y, wallCenter.z)
 	wallShower.add(tilesGroup)
 
 	return (
 		<Canvas
 			camera={{
-				position: [0, 0, -3],
+				position: [0, 0, -4],
 				fov: 120,
 			}}
 		>

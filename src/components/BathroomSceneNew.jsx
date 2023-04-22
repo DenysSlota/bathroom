@@ -6,25 +6,43 @@ import { TextureLoader } from 'three/src/loaders/TextureLoader'
 import { addTilesToWall } from '../utils/addTilesToWall'
 import texture from '../assets/tile/tile.png'
 
-const BathroomSceneNew = () => {
+const BathroomSceneNew = ({
+	wallWidth,
+	wallHeight,
+	tileTexture,
+	tileWidth,
+	tileHeight,
+	groutColor,
+	groutThickness,
+}) => {
+	const [wallGroup, setWallGroup] = useState(null)
 	const modelRef = useRef()
 
 	// Створюємо групу для стіни та плиток
-	const wall = new THREE.Group()
+	// const tileTexture = useLoader(TextureLoader, texture)
+	const createWall = () => {
+		const wall = new THREE.Group()
+		console.log(wallWidth, wallHeight, tileTexture, tileWidth, tileHeight)
+		// Створення групи для меш-плиток
+		const tilesGroup = addTilesToWall(
+			wallWidth,
+			wallHeight,
+			tileTexture,
+			tileWidth,
+			tileHeight,
+			groutColor,
+			groutThickness
+		)
 
-	//Для перевірки можна захардкодити розміри
-	const wallWidth = 165
-	const wallHeight = 145
+		console.log(tilesGroup)
+		//Додаємо групу плиток до стіни
+		wall.add(tilesGroup)
+		setWallGroup(wall)
+	}
 
-	//Завантаження текстури
-	const tileTexture = useLoader(TextureLoader, texture)
-
-	// // Створення групи для меш-плиток
-	const tilesGroup = addTilesToWall(wallWidth, wallHeight, tileTexture, 10, 15, 0xffffff, 2)
-	console.log(tilesGroup)
-	//Додаємо групу плиток до стіни
-	// tilesGroup1.position.set(wallWidth / 2, wallHeight / 2, 0.1)
-	wall.add(tilesGroup)
+	useEffect(() => {
+		createWall()
+	}, [wallWidth, wallHeight, tileWidth, tileHeight, groutColor, groutThickness, texture])
 
 	return (
 		<Canvas
@@ -37,7 +55,7 @@ const BathroomSceneNew = () => {
 			<directionalLight position={[1, 1, 1]} intensity={0.8} />
 			<OrbitControls />
 			<group ref={modelRef} position={[0, 0, -80]}>
-				<primitive object={wall} />
+				<primitive object={wallGroup} />
 			</group>
 		</Canvas>
 	)

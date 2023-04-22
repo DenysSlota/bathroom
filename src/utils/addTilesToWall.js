@@ -67,6 +67,7 @@ export function addTilesToWall(
 				groutColor,
 				groutThickness
 			)
+
 			// Встановлюємо позицію плитки відносно стіни
 			tilePiece.position.set(pieceOffsetX, pieceOffsetY + j * tileGroutHeight, 0)
 
@@ -90,6 +91,7 @@ export function addTilesToWall(
 				groutColor,
 				groutThickness
 			)
+
 			// Встановлюємо позицію плитки відносно стіни
 			tilePiece.position.set(pieceOffsetX + i * tileGroutWidth, pieceOffsetY, 0)
 
@@ -112,6 +114,7 @@ export function addTilesToWall(
 			groutColor,
 			groutThickness
 		)
+
 		// Встановлюємо позицію плитки відносно стіни
 		tilePiece.position.set(pieceOffsetX, pieceOffsetY, 0)
 

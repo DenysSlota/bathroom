@@ -20,7 +20,7 @@ export function createBathroomTiles(texture, tileWidth, tileHeight, groutColor, 
 	const groutMaterial = new THREE.MeshStandardMaterial({
 		color: groutColor,
 		roughness: 1,
-		metalness: 0
+		metalness: 0,
 	})
 
 	// Створюємо меш міжплиткових проміжків з використанням геометрії та матеріалу
