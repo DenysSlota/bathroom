@@ -32,7 +32,7 @@ function App() {
 				groutColor={groutColor}
 				groutThickness={groutThickness}
 			/>
-			<div className="Scene__new">
+			{/* <div className="Scene__new">
 				<Form onSubmit={handleSubmit} />
 				<BathroomSceneNew
 					wallWidth={wallWidth}
@@ -43,7 +43,7 @@ function App() {
 					groutColor={groutColor}
 					groutThickness={groutThickness}
 				/>
-			</div>
+			</div> */}
 		</div>
 	)
 }
