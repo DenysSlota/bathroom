@@ -18,10 +18,9 @@ const BathroomSceneNew = ({
 	const [wallGroup, setWallGroup] = useState(null)
 	const modelRef = useRef()
 
+	const wall = new THREE.Group()
 	// Створюємо групу для стіни та плиток
-	// const tileTexture = useLoader(TextureLoader, texture)
 	const createWall = () => {
-		const wall = new THREE.Group()
 		console.log(wallWidth, wallHeight, tileTexture, tileWidth, tileHeight)
 		// Створення групи для меш-плиток
 		const tilesGroup = addTilesToWall(
@@ -35,13 +34,13 @@ const BathroomSceneNew = ({
 		)
 
 		console.log(tilesGroup)
-		//Додаємо групу плиток до стіни
-		wall.add(tilesGroup)
-		setWallGroup(wall)
+		setWallGroup(tilesGroup)
 	}
 
 	useEffect(() => {
 		createWall()
+		//Додаємо групу плиток до стіни
+		wall.add(wallGroup)
 	}, [wallWidth, wallHeight, tileWidth, tileHeight, groutColor, groutThickness, texture])
 
 	return (

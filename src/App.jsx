@@ -9,8 +9,8 @@ import './App.css'
 import { useState } from 'react'
 
 function App() {
-	const [wallWidth, setWallWidth] = useState(200)
-	const [wallHeight, setWallHeight] = useState(180)
+	const [wallWidth, setWallWidth] = useState(185)
+	const [wallHeight, setWallHeight] = useState(144)
 	const [tileWidth, setTileWidth] = useState(15)
 	const [tileHeight, setTileHeight] = useState(20)
 	const [groutThickness, setGroutThickness] = useState(1)
@@ -25,7 +25,13 @@ function App() {
 	const groutColor = 0xffffff
 	return (
 		<div className="App">
-			<BathroomScene />
+			<BathroomScene
+				tileTexture={tileTexture}
+				tileWidth={tileWidth}
+				tileHeight={tileHeight}
+				groutColor={groutColor}
+				groutThickness={groutThickness}
+			/>
 			<div className="Scene__new">
 				<Form onSubmit={handleSubmit} />
 				<BathroomSceneNew

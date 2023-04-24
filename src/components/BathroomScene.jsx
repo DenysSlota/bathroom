@@ -1,22 +1,22 @@
 import * as THREE from 'three'
-import React, { useRef } from 'react'
-import { Canvas, useLoader } from '@react-three/fiber'
+import React, { useEffect, useRef } from 'react'
+import { Canvas } from '@react-three/fiber'
 import { useGLTF, OrbitControls } from '@react-three/drei'
-import { TextureLoader } from 'three/src/loaders/TextureLoader'
 import { addTilesToWall } from '../utils/addTilesToWall'
 import texture from '../assets/tile/tile.png'
+import { useState } from 'react'
 
-const BathroomScene = () => {
+const BathroomScene = ({ tileTexture, tileWidth, tileHeight, groutColor, groutThickness }) => {
 	const modelRef = useRef()
 
 	// Використання хука useGLTF для завантаження моделі
 	const gltf = useGLTF('/babylonBathroom.glb', true)
 	const wall = gltf.scene
-
-	// Знаходимо стіну ванної кімнати
-	const wallShower = gltf.scene.getObjectByName('Shower_Grout_Wall')
-	console.log(wallShower)
 	console.log(wall)
+	// Знаходимо стіну ванної кімнати
+	// const wallShower = gltf.scene.getObjectByName('Shower_Grout_Wall')
+	const wallShower = gltf.scene.getObjectByName('Wall').children[2]
+	console.log(wallShower)
 
 	// Отримання boundingBox стіни
 	const boundingBox = new THREE.Box3().setFromObject(wallShower)
@@ -24,7 +24,7 @@ const BathroomScene = () => {
 	const minPoint = boundingBox.min
 	const maxPoint = boundingBox.max
 	// Отримання розмірів стіни
-	const wallWidth = maxPoint.x - minPoint.x
+	const wallWidth = maxPoint.z - minPoint.z
 	const wallHeight = maxPoint.y - minPoint.y
 	console.log(wallWidth)
 	console.log(wallHeight)
@@ -32,25 +32,41 @@ const BathroomScene = () => {
 	const wallCenterX = maxPoint.x - (maxPoint.x - minPoint.x) / 2
 	const wallCenterY = maxPoint.y - (maxPoint.y - minPoint.y) / 2
 	const wallCenterZ = maxPoint.z - (maxPoint.z - minPoint.z) / 2
-
-	//Завантаження текстури
-	const tileTexture = useLoader(TextureLoader, texture)
+	console.log(wallCenterX, wallCenterY, wallCenterZ)
 
 	// Створення групи для меш-плиток
-	const tilesGroup = addTilesToWall(wallWidth, wallHeight, tileTexture, 8, 15, 0xffffff, 2)
+	const [tilesGroup, setTilesGroup] = useState()
 
-	// Встановлюємо позицію групи відносно стіни
-	tilesGroup.position.set(wallCenterX, wallCenterY, wallCenterZ)
+	const createMeshTiles = () => {
+		const tilesGroupMesh = addTilesToWall(
+			wallWidth,
+			wallHeight,
+			tileTexture,
+			tileWidth,
+			tileHeight,
+			groutColor,
+			groutThickness
+		)
+		// Встановлюємо позицію групи відносно стіни
+		tilesGroupMesh.position.set(wallCenterX + 0.35, wallCenterY, wallCenterZ)
 
-	// повертаємо групу мешів на 90 градусів по осі X
-	tilesGroup.setRotationFromEuler(new THREE.Euler(Math.PI / 2, 0, 0))
+		// повертаємо групу мешів на 90 градусів по осі Y
+		tilesGroupMesh.setRotationFromEuler(new THREE.Euler(0, Math.PI / 2, 0))
+
+		setTilesGroup(tilesGroupMesh)
+	}
+
 	//Додаємо групу плиток до стіни
 	wallShower.add(tilesGroup)
+
+	useEffect(() => {
+		createMeshTiles()
+	}, [tileWidth, tileHeight, groutColor, groutThickness, texture])
 
 	return (
 		<Canvas
 			camera={{
-				position: [0, 0, -4],
+				position: [0, 1, -4],
 				fov: 120,
 			}}
 		>
