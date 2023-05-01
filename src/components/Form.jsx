@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 
 const Form = ({ onSubmit }) => {
-	const [wallWidth, setWallWidth] = useState('')
-	const [wallHeight, setWallHeight] = useState('')
-	const [tileWidth, setTileWidth] = useState('')
-	const [tileHeight, setTileHeight] = useState('')
-	const [groutThickness, setGroutThickness] = useState('')
+	const [wallWidth, setWallWidth] = useState(0)
+	const [wallHeight, setWallHeight] = useState(0)
+	const [tileWidth, setTileWidth] = useState(0)
+	const [tileHeight, setTileHeight] = useState(0)
+	const [groutThickness, setGroutThickness] = useState(0)
 
 	function handleSubmit(event) {
 		event.preventDefault()

@@ -10,9 +10,8 @@ const BathroomScene = ({ tileTexture, tileWidth, tileHeight, groutColor, groutTh
 	// Використання хука useGLTF для завантаження моделі
 	const gltf = useGLTF('/babylonBathroom.glb', true)
 	const wall = gltf.scene
-	console.log(wall)
+
 	// Знаходимо стіну ванної кімнати
-	// const wallShower = gltf.scene.getObjectByName('Shower_Grout_Wall')
 	const wallShower = gltf.scene.getObjectByName('Wall').children[2]
 	console.log(wallShower)
 
@@ -24,14 +23,11 @@ const BathroomScene = ({ tileTexture, tileWidth, tileHeight, groutColor, groutTh
 	// Отримання розмірів стіни
 	const wallWidth = maxPoint.y - minPoint.y
 	const wallHeight = maxPoint.z - minPoint.z
-	console.log(wallWidth)
-	console.log(wallHeight)
 
 	// Отримання центру стіни
 	const wallCenterX = maxPoint.x - (maxPoint.x - minPoint.x) / 2
 	const wallCenterY = maxPoint.y - (maxPoint.y - minPoint.y) / 2
 	const wallCenterZ = maxPoint.z - (maxPoint.z - minPoint.z) / 2
-	console.log(wallCenterX, wallCenterY, wallCenterZ)
 
 	// Створення групи для меш-плиток
 	const tilesGroup = addTilesToWall(
@@ -52,6 +48,7 @@ const BathroomScene = ({ tileTexture, tileWidth, tileHeight, groutColor, groutTh
 	//Додаємо групу плиток до стіни
 	wallShower.add(tilesGroup)
 
+	//
 	// Обробляємо іншу стіну за аналогією
 	const wallShower2 = gltf.scene.getObjectByName('Wall').children[1]
 

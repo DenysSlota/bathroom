@@ -11,15 +11,16 @@ export function addTilesToWall(
 	groutThickness
 ) {
 	// Ширина та висота плитки та міжплиткового проміжка
-	const tileGroutWidth = tileWidth + groutThickness
-	const tileGroutHeight = tileHeight + groutThickness
+	const tileGroutWidth = Number(tileWidth) + Number(groutThickness)
+	const tileGroutHeight = Number(tileHeight) + Number(groutThickness)
+	console.log(tileGroutWidth, tileGroutHeight)
 	// Створюємо групу для мешів плиток
 	const tilesGroup = new THREE.Group()
 
 	// Кількість плиток по горизонталі та вертикалі
 	const numTilesHorizontal = Math.floor(wallWidth / tileGroutWidth)
 	const numTilesVertical = Math.floor(wallHeight / tileGroutHeight)
-
+	console.log(numTilesHorizontal, numTilesVertical)
 	// Зміщення плиток по горизонталі та вертикалі
 	const offsetX = -wallWidth / 2 + tileGroutWidth / 2
 	const offsetY = -wallHeight / 2 + tileGroutHeight / 2

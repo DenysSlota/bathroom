@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import * as THREE from 'three'
 import { Canvas, useLoader } from '@react-three/fiber'
-import { useGLTF, OrbitControls } from '@react-three/drei'
-import { TextureLoader } from 'three/src/loaders/TextureLoader'
+import { OrbitControls } from '@react-three/drei'
 import { addTilesToWall } from '../utils/addTilesToWall'
 import texture from '../assets/tile/tile.png'
 
@@ -18,10 +16,8 @@ const BathroomSceneNew = ({
 	const [wallGroup, setWallGroup] = useState(null)
 	const modelRef = useRef()
 
-	const wall = new THREE.Group()
 	// Створюємо групу для стіни та плиток
-	const createWall = () => {
-		console.log(wallWidth, wallHeight, tileTexture, tileWidth, tileHeight)
+	function createWall() {
 		// Створення групи для меш-плиток
 		const tilesGroup = addTilesToWall(
 			wallWidth,
@@ -32,16 +28,12 @@ const BathroomSceneNew = ({
 			groutColor,
 			groutThickness
 		)
-
-		console.log(tilesGroup)
 		setWallGroup(tilesGroup)
 	}
 
 	useEffect(() => {
 		createWall()
-		//Додаємо групу плиток до стіни
-		wall.add(wallGroup)
-	}, [wallWidth, wallHeight, tileWidth, tileHeight, groutColor, groutThickness, texture])
+	}, [wallWidth, wallHeight, tileWidth, texture, tileHeight, groutColor, groutThickness])
 
 	return (
 		<Canvas
